@@ -1,0 +1,34 @@
+! Configuring Router {{ inventory_hostname }}
+hostname {{ inventory_hostname }}
+
+! Configuring Interface {{ interfaces[inventory_hostname].interface }}
+interface {{ interfaces[inventory_hostname].interface }}
+ no ip address
+ ip address {{ interfaces[inventory_hostname].ip_address }} {{ interfaces[inventory_hostname].subnet_mask }}
+ no shutdown
+
+! Configuring Loopback0
+interface Loopback0
+ ip address {{ interfaces[inventory_hostname].loopback }} 255.255.255.255
+ no shutdown
+
+! Configuring BGP
+router bgp {{ bgp_as }}
+ bgp router-id {{ interfaces[inventory_hostname].loopback }}
+{% for neighbor in neighbors[inventory_hostname] %}
+ neighbor {{ neighbor.ip }} remote-as {{ neighbor.as }}
+{% endfor %}
+
+! Prefix-List for Loopback0
+ip prefix-list LOOPBACK permit {{ interfaces[inventory_hostname].loopback }}/32
+
+! Route-Map to Advertise Loopback
+route-map LOOPBACK_MAP permit 10
+ match ip address prefix-list LOOPBACK
+
+! Applying Route-Map to BGP Neighbor
+router bgp {{ bgp_as }}
+ network {{ interfaces[inventory_hostname].loopback }} mask 255.255.255.255
+{% for neighbor in neighbors[inventory_hostname] %}
+ neighbor {{ neighbor.ip }} route-map LOOPBACK_MAP out
+{% endfor %}

@@ -1,0 +1,15 @@
+Device Type: router | Device Vendor: Cisco | Region: us-west
+Device Type: switch | Device Vendor: Arista | Region: europe
+Device Type: fw | Device Vendor: Arista | Region: europe
+Device Type: switch | Device Vendor: Cisco | Region: europe
+Device Type: fw | Device Vendor: Cisco | Region: us-west
+Device Type: router | Device Vendor: Arista | Region: us-west
+Device Type: switch | Device Vendor: Cisco | Region: us-west
+Device Type: fw | Device Vendor: Cisco | Region: us-east
+Device Type: fw | Device Vendor: Arista | Region: us-west
+Device Type: switch | Device Vendor: Cisco | Region: us-west
+Device Type: fw | Device Vendor: Arista | Region: us-east
+Device Type: router | Device Vendor: Cisco | Region: us-west
+Device Type: fw | Device Vendor: Cisco | Region: us-west
+Device Type: switch | Device Vendor: Arista | Region: us-east
+Device Type: fw | Device Vendor: Cisco | Region: us-west

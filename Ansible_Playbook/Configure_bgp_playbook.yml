@@ -1,0 +1,108 @@
+- name: Configure BGP on R1 and R2
+  hosts: routers
+  gather_facts: no
+  vars_files:
+    - /home/umairalam/Python-VE/Automation_Program/Ansible_Variable/BGP_LAB_var.yml
+  tasks:
+
+    - name: Debug IP Address Variables
+      debug:
+        msg: "Configuring {{ interfaces[inventory_hostname].interface }} with IP {{ interfaces[inventory_hostname].ip_address }}/{{ interfaces[inventory_hostname].subnet_mask }}"
+
+    - name: Configure IP on BGP Interface (G0/1)
+      cisco.ios.ios_config:
+        parents: interface {{ interfaces[inventory_hostname].interface }}
+        lines:
+          - no ip address
+          - ip address {{ interfaces[inventory_hostname].ip_address }} {{ interfaces[inventory_hostname].subnet_mask }}
+          - no shutdown
+        save_when: always
+
+    - name: Configure Loopback0
+      cisco.ios.ios_config:
+        parents: interface Loopback0
+        lines:
+          - ip address {{ interfaces[inventory_hostname].loopback }} 255.255.255.255
+          - no shutdown
+        save_when: always
+
+    - name: Configure BGP
+      cisco.ios.ios_config:
+        parents: router bgp {{ bgp_as }}
+        lines:
+          - bgp router-id {{ interfaces[inventory_hostname].loopback }}
+          - neighbor 192.168.12.{{ 2 if inventory_hostname == 'R1' else 1 }} remote-as {{ bgp_as }}
+          - neighbor 192.168.12.{{ 2 if inventory_hostname == 'R1' else 1 }} update-source {{ interfaces[inventory_hostname].interface }}
+        save_when: always
+
+    - name: Configure Prefix-List for Loopback0
+      cisco.ios.ios_config:
+        lines:
+          - ip prefix-list LOOPBACK permit {{ interfaces[inventory_hostname].loopback }}/32
+        save_when: always
+
+    - name: Configure Route-Map to Advertise Loopback
+      cisco.ios.ios_config:
+        parents: route-map LOOPBACK_MAP permit 10
+        lines:
+          - match ip address prefix-list LOOPBACK
+        save_when: always
+
+    - name: Apply Route-Map in BGP
+      cisco.ios.ios_config:
+        parents: router bgp {{ bgp_as }}
+        lines:
+          - network {{ interfaces[inventory_hostname].loopback }} mask 255.255.255.255
+          - neighbor 192.168.12.{{ 2 if inventory_hostname == 'R1' else 1 }} route-map LOOPBACK_MAP out
+        save_when: always
+
+    # ✅ Verification Steps: Show Configurations on Terminal
+    - name: Verify Interface Configuration (G0/1)
+      cisco.ios.ios_command:
+        commands:
+          - show run interface {{ interfaces[inventory_hostname].interface }}
+      register: interface_output
+
+    - name: Display Interface Configuration on Router
+      debug:
+        var: interface_output.stdout_lines
+
+    - name: Verify Loopback0 Configuration
+      cisco.ios.ios_command:
+        commands:
+          - show run interface Loopback0
+      register: loopback_output
+
+    - name: Display Loopback Configuration on Router
+      debug:
+        var: loopback_output.stdout_lines
+
+    - name: Verify BGP Neighbor and Advertised Routes
+      cisco.ios.ios_command:
+        commands:
+          - show ip bgp summary
+      register: bgp_output
+
+    - name: Display BGP Summary on Router
+      debug:
+        var: bgp_output.stdout_lines
+
+    - name: Verify Prefix-List Configuration
+      cisco.ios.ios_command:
+        commands:
+          - show ip prefix-list
+      register: prefix_output
+
+    - name: Display Prefix-List on Router
+      debug:
+        var: prefix_output.stdout_lines
+
+    - name: Verify Route-Map Configuration
+      cisco.ios.ios_command:
+        commands:
+          - show run | section route-map
+      register: routemap_output
+
+    - name: Display Route-Map Configuration on Router
+      debug:
+        var: routemap_output.stdout_lines

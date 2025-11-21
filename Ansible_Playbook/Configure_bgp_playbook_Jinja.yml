@@ -1,0 +1,65 @@
+- name: Deploy BGP Configuration Using Jinja2 Template
+  hosts: routers
+  gather_facts: no
+  vars_files:
+    - /home/umairalam/Python-VE/Automation_Program/Ansible_Variable/BGP_LAB_Jinja_var.yml
+  tasks:
+
+    - name: Generate BGP Configuration from Jinja2 Template
+      template:
+        src: /home/umairalam/Python-VE/Automation_Program/templates/bgp_config.j2
+        dest: /tmp/bgp_config_{{ inventory_hostname }}.cfg
+
+    - name: Display Generated Configuration on Terminal
+      command: cat /tmp/bgp_config_{{ inventory_hostname }}.cfg
+      register: bgp_config_output
+
+    - name: Print Generated Configuration
+      debug:
+        var: bgp_config_output.stdout_lines
+
+    - name: Apply BGP Configuration on Routers
+      cisco.ios.ios_config:
+        src: /tmp/bgp_config_{{ inventory_hostname }}.cfg
+        save_when: always
+
+    # ✅ Verification Steps
+    - name: Verify Interface Configuration
+      cisco.ios.ios_command:
+        commands:
+          - show run interface {{ interfaces[inventory_hostname].interface }}
+      register: interface_output
+
+    - name: Display Interface Configuration on Terminal
+      debug:
+        var: interface_output.stdout_lines
+
+    - name: Verify Loopback0 Configuration
+      cisco.ios.ios_command:
+        commands:
+          - show run interface Loopback0
+      register: loopback_output
+
+    - name: Display Loopback Configuration on Terminal
+      debug:
+        var: loopback_output.stdout_lines
+
+    - name: Verify BGP Neighbor and Advertised Routes
+      cisco.ios.ios_command:
+        commands:
+          - show ip bgp summary
+      register: bgp_output
+
+    - name: Display BGP Summary on Terminal
+      debug:
+        var: bgp_output.stdout_lines
+
+    - name: Verify Route-Map Configuration
+      cisco.ios.ios_command:
+        commands:
+          - show run | section route-map
+      register: routemap_output
+
+    - name: Display Route-Map Configuration on Terminal
+      debug:
+        var: routemap_output.stdout_lines

@@ -1,0 +1,76 @@
+WARNING: Packet loss observed from 192.168.10.2
+INFO: Data transmitted from 192.168.10.8
+INFO: Session closed from 192.168.10.9
+INFO: Session closed from 192.168.10.1
+INFO: Connection established from 192.168.10.7
+WARNING: Packet loss observed from 192.168.10.6
+INFO: Connection established from 192.168.10.5
+WARNING: High latency detected from 192.168.10.5
+INFO: Heartbeat received from 192.168.10.7
+INFO: Session closed from 192.168.10.6
+INFO: Session closed from 192.168.10.6
+INFO: Heartbeat received from 192.168.10.9
+INFO: Heartbeat received from 192.168.10.1
+INFO: Session closed from 192.168.10.8
+INFO: Connection established from 192.168.10.1
+INFO: Session closed from 192.168.10.9
+WARNING: High latency detected from 192.168.10.5
+INFO: Session closed from 192.168.10.6
+WARNING: Packet loss observed from 192.168.10.1
+INFO: Session closed from 192.168.10.9
+WARNING: Packet loss observed from 192.168.10.9
+INFO: Session closed from 192.168.10.8
+INFO: Data transmitted from 192.168.10.10
+ERROR: Timeout from 192.168.10.4
+WARNING: Packet loss observed from 192.168.10.4
+INFO: Session closed from 192.168.10.4
+WARNING: Packet loss observed from 192.168.10.1
+WARNING: Packet loss observed from 192.168.10.3
+INFO: Heartbeat received from 192.168.10.7
+ERROR: Connection lost from 192.168.10.1
+ERROR: Timeout from 192.168.10.1
+INFO: Session closed from 192.168.10.7
+WARNING: Packet loss observed from 192.168.10.9
+WARNING: High latency detected from 192.168.10.6
+INFO: Connection established from 192.168.10.6
+WARNING: High latency detected from 192.168.10.8
+INFO: Session closed from 192.168.10.8
+ERROR: Connection lost from 192.168.10.1
+INFO: Data transmitted from 192.168.10.6
+ERROR: Access denied from 192.168.10.1
+WARNING: High latency detected from 192.168.10.2
+INFO: Heartbeat received from 192.168.10.7
+INFO: Connection established from 192.168.10.3
+ERROR: Connection lost from 192.168.10.10
+INFO: Heartbeat received from 192.168.10.6
+INFO: Session closed from 192.168.10.4
+ERROR: Timeout from 192.168.10.1
+INFO: Data transmitted from 192.168.10.2
+INFO: Heartbeat received from 192.168.10.3
+WARNING: High latency detected from 192.168.10.6
+INFO: Connection established from 192.168.10.3
+INFO: Heartbeat received from 192.168.10.3
+ERROR: Connection lost from 192.168.10.1
+WARNING: High latency detected from 192.168.10.2
+WARNING: High latency detected from 192.168.10.9
+ERROR: Connection lost from 192.168.10.4
+INFO: Heartbeat received from 192.168.10.9
+WARNING: High latency detected from 192.168.10.3
+ERROR: Timeout from 192.168.10.3
+INFO: Data transmitted from 192.168.10.9
+Device Type: router | Device Vendor: Cisco | Region: us-west
+Device Type: switch | Device Vendor: Arista | Region: europe
+Device Type: fw | Device Vendor: Arista | Region: europe
+Device Type: switch | Device Vendor: Cisco | Region: europe
+Device Type: fw | Device Vendor: Cisco | Region: us-west
+Device Type: router | Device Vendor: Arista | Region: us-west
+Device Type: switch | Device Vendor: Cisco | Region: us-west
+Device Type: fw | Device Vendor: Cisco | Region: us-east
+Device Type: fw | Device Vendor: Arista | Region: us-west
+Device Type: switch | Device Vendor: Cisco | Region: us-west
+Device Type: fw | Device Vendor: Arista | Region: us-east
+Device Type: router | Device Vendor: Cisco | Region: us-west
+Device Type: fw | Device Vendor: Cisco | Region: us-west
+Device Type: switch | Device Vendor: Arista | Region: us-east
+Device Type: fw | Device Vendor: Cisco | Region: us-west
+
